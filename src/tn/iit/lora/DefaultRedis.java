@@ -11,10 +11,10 @@ public class DefaultRedis extends Thread {
 	public DefaultRedis(String channelDownlink, String redisServer) {
 
 		this.channelDownlink = channelDownlink;
-		jedis=new Jedis(redisServer,6379,0);
+		jedis = new Jedis(redisServer, 6379, 0);
 		jedis.auth("iot2016");
-	
-		
+		jedis.connect();
+
 	}
 
 	public void handle(String channel, String message) {
@@ -26,42 +26,47 @@ public class DefaultRedis extends Thread {
 		System.out.println("Starting subscriber for channel ");
 
 		while (true) {
-			jedis.subscribe(new JedisPubSub() {
-				@Override
-				public void onMessage(String channel, String message) {
 
-					handle(channel, message);
+			try {
+				if (jedis.isConnected()) {
+					jedis.subscribe(new JedisPubSub() {
+						@Override
+						public void onMessage(String channel, String message) {
 
+							handle(channel, message);
+
+						}
+
+						@Override
+						public void onSubscribe(String channel, int subscribedChannels) {
+						}
+
+						@Override
+						public void onUnsubscribe(String channel, int subscribedChannels) {
+						}
+
+						@Override
+						public void onPMessage(String pattern, String channel, String message) {
+						}
+
+						@Override
+						public void onPUnsubscribe(String pattern, int subscribedChannels) {
+						}
+
+						@Override
+						public void onPSubscribe(String pattern, int subscribedChannels) {
+						}
+
+					}, channelDownlink);
+
+				} else {
+					jedis.connect();
 				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 
-				@Override
-				public void onSubscribe(String channel, int subscribedChannels) {
-				}
-
-				@Override
-				public void onUnsubscribe(String channel, int subscribedChannels) {
-				}
-
-				@Override
-				public void onPMessage(String pattern, String channel, String message) {
-				}
-
-				@Override
-				public void onPUnsubscribe(String pattern, int subscribedChannels) {
-				}
-
-				@Override
-				public void onPSubscribe(String pattern, int subscribedChannels) {
-				}
-
-			}, channelDownlink);
 		}
-
-	}
-
-	public static void main(String[] args) {
-
-		new tn.iit.lora.DefaultRedis("lora", "192.168.3.48").start();
 
 	}
 
