@@ -19,7 +19,7 @@ public class ClientRedis extends DefaultRedis {
 	}
 
 	public static void main(String[] args) {
-		ClientRedis receiveRedisFrame = new ClientRedis("Downlink", "soitech.cloudapp.net");
+		ClientRedis receiveRedisFrame = new ClientRedis("Downlink", "localhost");
 		receiveRedisFrame.start();
 
 	}

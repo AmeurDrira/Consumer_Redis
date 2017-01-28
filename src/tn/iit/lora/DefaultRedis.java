@@ -28,40 +28,37 @@ public class DefaultRedis extends Thread {
 		while (true) {
 
 			try {
-				if (jedis.isConnected()) {
-					jedis.subscribe(new JedisPubSub() {
-						@Override
-						public void onMessage(String channel, String message) {
 
-							handle(channel, message);
+				jedis.subscribe(new JedisPubSub() {
+					@Override
+					public void onMessage(String channel, String message) {
 
-						}
+						handle(channel, message);
 
-						@Override
-						public void onSubscribe(String channel, int subscribedChannels) {
-						}
+					}
 
-						@Override
-						public void onUnsubscribe(String channel, int subscribedChannels) {
-						}
+					@Override
+					public void onSubscribe(String channel, int subscribedChannels) {
+					}
 
-						@Override
-						public void onPMessage(String pattern, String channel, String message) {
-						}
+					@Override
+					public void onUnsubscribe(String channel, int subscribedChannels) {
+					}
 
-						@Override
-						public void onPUnsubscribe(String pattern, int subscribedChannels) {
-						}
+					@Override
+					public void onPMessage(String pattern, String channel, String message) {
+					}
 
-						@Override
-						public void onPSubscribe(String pattern, int subscribedChannels) {
-						}
+					@Override
+					public void onPUnsubscribe(String pattern, int subscribedChannels) {
+					}
 
-					}, channelDownlink);
+					@Override
+					public void onPSubscribe(String pattern, int subscribedChannels) {
+					}
 
-				} else {
-					jedis.connect();
-				}
+				}, channelDownlink);
+
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
