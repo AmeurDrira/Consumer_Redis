@@ -19,8 +19,10 @@ public class ClientRedis extends DefaultRedis {
 	}
 
 	public static void main(String[] args) {
-		ClientRedis receiveRedisFrame = new ClientRedis("Downlink", "localhost");
+		ClientRedis receiveRedisFrame = new ClientRedis("Downlink", "52.183.78.136");
 		receiveRedisFrame.start();
+		
+		
 
 	}
 

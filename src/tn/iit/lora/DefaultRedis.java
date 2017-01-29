@@ -6,7 +6,7 @@ import redis.clients.jedis.JedisPubSub;
 public class DefaultRedis extends Thread {
 	private String channelDownlink;
 
-	private Jedis jedis;
+	public static Jedis jedis;
 
 	public DefaultRedis(String channelDownlink, String redisServer) {
 
