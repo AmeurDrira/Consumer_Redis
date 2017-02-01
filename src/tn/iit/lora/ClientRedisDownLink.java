@@ -3,9 +3,9 @@ package tn.iit.lora;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-public class ClientRedis extends DefaultRedis {
+public class ClientRedisDownLink extends DefaultRedis {
 
-	public ClientRedis(String channelDownlink, String redisServer) {
+	public ClientRedisDownLink(String channelDownlink, String redisServer) {
 		super(channelDownlink, redisServer);
 
 	}
@@ -14,12 +14,12 @@ public class ClientRedis extends DefaultRedis {
 	public void handle(String channel, String message) {
 		String timeStamp = new SimpleDateFormat("yyyy/MM/dd  HH:mm:ss").format(Calendar.getInstance().getTime());
 
-		System.out.println(timeStamp + "  DownLink  " + channel + " Message  : " + message);
+		System.out.println(timeStamp + "  " + channel + " Message  : " + message);
 
 	}
 
 	public static void main(String[] args) {
-		ClientRedis receiveRedisFrame = new ClientRedis("Downlink", "52.183.78.136");
+		ClientRedisDownLink receiveRedisFrame = new ClientRedisDownLink("Downlink", "52.183.78.136");
 		receiveRedisFrame.start();
 		
 		

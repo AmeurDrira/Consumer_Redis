@@ -1,5 +1,8 @@
 package tn.iit.lora;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPubSub;
 
@@ -11,7 +14,7 @@ public class DefaultRedis extends Thread {
 	public DefaultRedis(String channelDownlink, String redisServer) {
 
 		this.channelDownlink = channelDownlink;
-		jedis = new Jedis(redisServer, 6379, 0);
+		jedis = new Jedis(redisServer, 6379, 60000);
 		jedis.auth("iot2016");
 		jedis.connect();
 
@@ -60,6 +63,9 @@ public class DefaultRedis extends Thread {
 				}, channelDownlink);
 
 			} catch (Exception e) {
+				String timeStamp = new SimpleDateFormat("yyyy/MM/dd  HH:mm:ss").format(Calendar.getInstance().getTime());
+
+				System.out.println(timeStamp + "  " +"I m in catch Exception");
 				e.printStackTrace();
 			}
 
